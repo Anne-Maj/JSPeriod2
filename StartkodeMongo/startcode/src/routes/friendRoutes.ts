@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { isNamedExportBindings } from "typescript";
 const router = Router();
-import { ApiError } from "../errors/errors"
+import { ApiError } from "../errors/apiError"
 import FriendFacade from "../facades/friendFacade"
 const debug = require("debug")("friend-routes")
 
@@ -64,7 +64,7 @@ router.put('/:email', async function (req: any, res, next) {
 router.get("/find-user/:email", async (req: any, res, next) => {
   try {
   const userId = req.params.email;
-  const friend = await facade.getFrind(userId);
+  const friend = await facade.getFriend(userId);
   if (friend == null) {
     throw new ApiError("Not found", 404)
   }

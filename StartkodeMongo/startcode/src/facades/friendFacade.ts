@@ -1,7 +1,7 @@
 import { IFriend } from '../interfaces/IFriend';
 import { Db, Collection } from "mongodb";
 import bcrypt from "bcryptjs";
-import { ApiError } from '../errors/errors';
+import { ApiError } from '../errors/apiError';
 import Joi, { ValidationError } from "joi"
 
 
@@ -37,31 +37,32 @@ class FriendsFacade {
    * @param friend 
    * @throws ApiError if validation fails
    */
-  async addFriend(friend: IFriend): Promise<{ id: String }> {
+   async addFriend(friend: IFriend): Promise<{ id: String }> {
     const status = USER_INPUT_SCHEMA.validate(friend);
+
     if (status.error) {
-      throw new ApiError(status.error.message, 400)
+        throw new ApiError(status.error.message, 400)
     }
 
-    try {
     const hashedpw = await bcrypt.hash(friend.password, BCRYPT_ROUNDS);
     const f = { ...friend, password: hashedpw }
-
-
-   await this.friendCollection.insertOne(
-     {
-       firstName:f.firstName,
-       lastName:f.lastName,
-       email:f.email,
-       password:f.password
-     }
-   )
-   
-    return this.friendCollection.findOne({ email: f.email })
-  } catch (error) {
-    throw new ApiError(error);
-  }
+    try {
+    await this.friendCollection.insertOne(
+        {
+            firstName: f.firstName,
+            lastName: f.lastName,
+            email: f.email,
+            password: f.password
+            
+        }
+    )
+     return await this.friendCollection.findOne({ email: f.email })
+    } catch (error) {
+        throw new ApiError(error)
+    }
 }
+  
+
 
   /**
    * TODO
@@ -127,7 +128,7 @@ class FriendsFacade {
    * @returns 
    * @throws ApiError if not found
    */
-  async getFrind(friendEmail: string): Promise<IFriend> {
+  async getFriend(friendEmail: string): Promise<IFriend> {
     try {
     const friend: IFriend = await this.friendCollection.findOne({ email: friendEmail});
       return friend;

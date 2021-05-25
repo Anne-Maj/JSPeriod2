@@ -40,7 +40,7 @@ describe("### Describe the Friend Endpoints (/api/friends) ###", function () {
 
   //In this, and all the following REMOVE tests that requires authentication if you are using the simple version of friendRoutes
   describe("While attempting to get all users", function () {
-    it("it should get two users when authenticated", async () => {
+    it("it should get three users when authenticated", async () => {
       const response = await request
         .get('/api/friends/all')
         .auth("pp@b.dk", "secret")
@@ -48,10 +48,10 @@ describe("### Describe the Friend Endpoints (/api/friends) ###", function () {
       expect(response.body.length).to.equal(3)
     })
 
-    xit("it should get a 401 when NOT authenticated", async () => {
+    it("it should get a 401 when NOT authenticated", async () => {
         const response = await request
         .get('api/friends/all')
-        .auth("pp@bcryptjs.dk", "wrongPW")
+        .auth("pp@b.dk", "wrongPW")
         expect(response.status).to.equal(401)
     })
   })
@@ -64,23 +64,23 @@ describe("### Describe the Friend Endpoints (/api/friends) ###", function () {
       expect(response.body.id).to.be.not.null
     })
 
-    xit("It should fail to Add user due to wrong password length", async () => {
-        const newUser = { firstName: "Jan", lastName: "Olsen", email: "jan@b.dk", password: "a"}
+    it("It should fail to Add user due to wrong password length", async () => {
+        const newUser = { firstName: "Jan", lastName: "Olsen", email: "jan@b.dk", password: ""}
         const response = await request.get('/api/friends').send(newUser)
         expect(response.status).to.equal(400)
     })
   })
-  describe("While logged in as a user", function () {
-    xit("It should return the logged in user", async () => {
+ /*  describe("While logged in as a user", function () {
+    it("It should return the logged in user", async () => {
         const response = await request
         .get('api/friends/me')
         .auth("pp@b.dk", "secret")
         expect(response.status).to.equal(200)
     })
-    xit("It should edit the logged in user", async () => {
-    })
-  })
-  describe("While verifying the get any user, given a userId (email)", function () {
+    it("It should edit the logged in user", async () => {
+    }) */
+  
+ /*  describe("While verifying the get any user, given a userId (email)", function () {
     xit("It should allow an admin user to find Donald Duck", async () => {
     })
     xit("It should not, allow admin-users to find a non-existing user", async () => {
@@ -100,6 +100,5 @@ describe("### Describe the Friend Endpoints (/api/friends) ###", function () {
     xit("It should allow an admin user to delete Donald Duck", async () => {
     })
     xit("It should NOT allow a non-admin user to delete Donald Duck", async () => {
-    })
+    }) */
   })
-})

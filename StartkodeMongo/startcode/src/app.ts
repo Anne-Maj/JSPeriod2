@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path"
 dotenv.config()
-import { ApiError } from "./errors/errors"
+import { ApiError } from "./errors/apiError"
 
 //TODO: Decide for which one to use below
 import friendsRoutes from "./routes/friendRoutes";

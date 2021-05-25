@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "tsc & node build/app.js",
     "dev": "nodemon src/bin/www.ts",
-    "test": "mocha --exit  -r ts-node/register test/**/*.ts",
+    "test": "mocha --exit -r ts-node/register test/**/*.ts",
     "test:debug": "mocha --exit -r ts-node/register --inspect test/**/*.ts"
   },
   "nodemonConfig": {
